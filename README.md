@@ -1,7 +1,8 @@
 # Generates .lrc files for your music library
-This script scans your music library (mp3, flac, m4a) and using the song data (artist, track name and duration) it fetches and generate a [lrc file](https://en.wikipedia.org/wiki/LRC_(file_format)) using the song's duration to spread the lyrics uniformly in the generated file.
+This script scans your music library (mp3, flac, m4a) and using the song data (artist, track name and duration) fetches and generate a [lrc file](https://en.wikipedia.org/wiki/LRC_(file_format)) spreading the lyrics uniformly across the song's length.
 
 The generated files are stored in the same place and using the same name of the original audio file.
+`song_01.flac` -> `song_01.lrc`
 
 ## Execution
 1. Install [python 3](https://www.python.org/downloads/)
@@ -15,4 +16,4 @@ The script will look for all files below it, so assuming a structure like `Docum
  - if you execute the script from the `song.flac` level it will fetch the lyrics only for that album
 
 ## Debugging
-Sometimes the URl built from the data in the audio file does not match the actual url used to host the lyrics, in this case you will probablly observe a `404` error associated with the url in the terminal output and this should allow debbuging any issue.
+Sometimes the URl built from the data in the audio file does not match the actual url used to host the lyrics, in this case you will probablly observe a `404` error associated with the url in the terminal output, it should be possible to debbug most of the issues with this info.
