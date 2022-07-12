@@ -13,9 +13,9 @@ The generated files are stored in the same place and using the same name of the 
 4. Execute: `scrapy runspider lyrics_fetcher.py`
 
 The script will look for all files below it, so assuming a structure like `Documents/Music/Artist/Album/song.flac`:
- - if you execute the script from the `Music` level it will fetch the lyrics for all songs (all artists and albuns) that are contained in the `Music` folder
+ - if you execute the script from the `Music` level it will fetch the lyrics for all songs (all artists and albums) that are contained in the `Music` folder
  - if you execute the script from the `Album` level it will fetch the lyrics for all albuns of that artist
  - if you execute the script from the `song.flac` level it will fetch the lyrics only for that album
 
 ## Debugging
-Sometimes the URl built from the data in the audio file does not match the actual url used to host the lyrics, in this case you will probablly observe a `404` error associated with the url in the terminal output, it should be possible to debbug most of the issues with this info.
+Sometimes the URl built from the data in the audio file does not match the actual url used to host the lyrics, in this case you will probablly observe a `404` error associated with the url in the terminal output, it should be possible to debug most of the issues with this info.
