@@ -6,6 +6,7 @@ from mutagen.flac import FLAC
 from mutagen.mp4 import MP4
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
+import mutagen
 
 # To execute it, install the dependencies:
 # Install python
@@ -17,7 +18,7 @@ from mutagen.mp3 import MP3
 OVERWRITE_EXISTING_LYRICS = False 
 OVERWRITE_EXISTING_TXT = False 
 GENERATE_LRC = True # Creates a .lrc file using the same name of the original file
-GENERATE_TXT = False # Creates a .txt file using the same name of the original file containing only the lyrics
+GENERATE_TXT = False # Creates a .txt file using the same name of the original file
 NUKE_TXT = False # Deletes all .txt files
 NUKE_LRC = False # Deletes all .lrc files
 
@@ -32,7 +33,7 @@ def sanitize_values_for_url(value):
     return re.sub(r'[^A-Za-z0-9 ]+', ' ', no_spaces).strip(' ').strip('-').replace(' ', '-').lower()
 
 def add_extension(value, extension = ".lrc"):
-    return value.removesuffix(".flac").removesuffix(".m4a").removesuffix(".mp3") + extension
+    return value.removesuffix(".flac").removesuffix(".m4a").removesuffix(".mp3").removesuffix(".opus").removesuffix(".ogg") + extension
 
 def add_txt_extension(path, artist, track):
     return path.replace(path.split(os.sep)[-1],"") + artist + "-" + track + ".txt"
@@ -68,6 +69,12 @@ class BlogSpider(scrapy.Spider):
                     trackName = fileInfo['title'][0] if 'title' in fileInfo else ""
                     album = fileInfo['album'][0] if 'album' in fileInfo else ""
                     duration = MP3(path).info.length
+                elif file.endswith(".opus") or file.endswith(".ogg"):
+                    fileInfo = mutagen.File(path)
+                    artistName = fileInfo['albumartist'][0] if 'albumartist' in fileInfo else fileInfo['artist'][0]
+                    trackName = fileInfo['title'][0] if 'title' in fileInfo else ""
+                    album = fileInfo['album'][0] if 'album' in fileInfo else ""
+                    duration = fileInfo.info.length
                 if artistName != "" and trackName != "":
                     parsedArtistName = sanitize_values_for_url(artistName)
                     parsedTrack = sanitize_values_for_url(trackName)
