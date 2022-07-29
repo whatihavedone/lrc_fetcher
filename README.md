@@ -1,5 +1,5 @@
 # Generates .lrc files for your music library
-This script scans your music library (mp3, flac, m4a) and using the song data (artist, track name and duration) fetches and generate a [lrc file](https://en.wikipedia.org/wiki/LRC_(file_format)) spreading the lyrics uniformly across the song's length.
+This script scans your music library (mp3, flac, m4a, ogg, opus) and using the song data (artist, track name and duration) fetches and generate a [lrc file](https://en.wikipedia.org/wiki/LRC_(file_format)) spreading the lyrics uniformly across the song's length.
 
 There is also an option to generate a txt file containing only the lyrics without the time tags.
 
