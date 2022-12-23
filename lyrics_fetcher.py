@@ -8,12 +8,15 @@ from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3
 import mutagen
 
+# https://github.com/whatihavedone/lrc_fetcher
 # To execute it, install the dependencies:
 # Install python
 # pip install Scrapy
 # pip install mutagen
 # and run:
 # execute "scrapy runspider lyrics_fetcher.py"
+#Change log:
+#12/23/2022 - Now only pull lyrics that are needed, should increase performance when you run this more than once.
 
 OVERWRITE_EXISTING_LYRICS = False 
 OVERWRITE_EXISTING_TXT = False 
@@ -50,7 +53,8 @@ class BlogSpider(scrapy.Spider):
             trackName = ""
             album = ""
             duration = 0.0
-            if OVERWRITE_EXISTING_TXT or OVERWRITE_EXISTING_LYRICS or not os.path.exists(add_extension(path)) or not os.path.exists(add_extension(path, ".txt")):
+            #Only pull files that are needed
+            if ((GENERATE_TXT and (OVERWRITE_EXISTING_TXT or not os.path.exists(add_extension(path, ".txt")))) or (GENERATE_LRC and (OVERWRITE_EXISTING_LYRICS or not os.path.exists(add_extension(path))))):
                 if file.endswith(".flac"):
                     fileInfo = FLAC(path)
                     artistName = fileInfo["albumartist"][0] if "albumartist" in fileInfo else fileInfo["artist"][0]
@@ -75,6 +79,9 @@ class BlogSpider(scrapy.Spider):
                     trackName = fileInfo['title'][0] if 'title' in fileInfo else ""
                     album = fileInfo['album'][0] if 'album' in fileInfo else ""
                     duration = fileInfo.info.length
+                #Added some output to see what info is being grabbed from the meta data inside each music file.
+                print(f'{path=}')
+                print(f'{artistName=} {trackName=} {album=}')
                 if artistName != "" and trackName != "":
                     parsedArtistName = sanitize_values_for_url(artistName)
                     parsedTrack = sanitize_values_for_url(trackName)
@@ -117,3 +124,4 @@ class BlogSpider(scrapy.Spider):
             f.write("Artist: " + artistName+"\nAlbum: " + album +
                     "\nTrack: " + trackName+"\n\n" + lyrics)
             f.close()
+
